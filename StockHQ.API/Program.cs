@@ -1,7 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using StockHQ.API.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+//create option for StockHQDbContext constructor to use SQL Server
+builder.Services.AddDbContext<StockHQDbContext>(options =>
+options.UseSqlServer(
+    builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
