@@ -38,5 +38,45 @@ namespace StockHQ.API.Controllers
 
             return Ok(products);
         }
+
+        [HttpPost]
+        //Product product is from request body - perform model binding
+        public async Task<ActionResult<Product>> CreateProduct(Product product)
+        {
+            //track new product since we want to add to database
+            //nothing saved yet
+            _context.Products.Add(product);
+
+            await _context.SaveChangesAsync();
+            //EF generates SQL behind the scenes with the SaveChangesAsync() method
+            //product then inserted into the database
+
+            return CreatedAtAction(nameof(GetProducts), new { id = product.Id }, product);
+            /*
+            HTTP 201 Created HTTP response code returned with CreatedAtAction
+            nameof() returns the name of something as a string, so in this case "GetProducts"
+            new { id = product.Id } is an anonymous object - creates an object without creating a class because ASP.NET Core needs route values
+            e.g. GET /api/products/5 -> the route parameter is 5
+            product is the object returned in the response body.
+            server says I created product #5 here is where you can find it 
+            */
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Product>> GetProduct(int id)
+        {
+
+            //async find product from within contextdb products with matching id
+            var product = await _context.Products.FindAsync(id);
+
+            //if not found, show 404
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            //if found, 200 OK return code
+            return Ok(product);
+        }
     }
 }
