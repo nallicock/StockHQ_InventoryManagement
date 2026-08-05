@@ -78,5 +78,50 @@ namespace StockHQ.API.Controllers
             //if found, 200 OK return code
             return Ok(product);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, Product product)
+        //IActionResult - return some kind of HTTP response
+        //ActionResult - return some kind of HTTP response and if successful it contains a Product
+        {
+            if (id != product.Id)
+            {
+                //400 response id is invalid
+                return BadRequest();
+            }
+
+            _context.Entry(product).State = EntityState.Modified;
+            //object exists in the db and values are changed
+
+            await _context.SaveChangesAsync();
+            //UPDATE is run in SQL and saved
+
+            //204 response code normal to return no content after update because there is nothing left to do
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            //does this actually exist? SQL Select query is run in the backend
+
+            if(product == null)
+            {
+                return NotFound();
+                //404 response product is null
+            }
+
+            _context.Products.Remove(product);
+            //do not delete row immediately. Track this product and delete when I save
+
+            await _context.SaveChangesAsync();
+            //delete this row now - EF Core sends the SQL to SQL Server.
+
+
+            return NoContent();
+            //Return 204 delete succeeded but there is nothing useful to send back.
+        }
     }
 }
+
