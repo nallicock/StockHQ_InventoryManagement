@@ -10,6 +10,7 @@
         public int QuantityInStock { get; set; }
         public int CategoryId { get; set; }
         //add navigation property to know category's name
+        //product.Category.Name
         public Category? Category { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
