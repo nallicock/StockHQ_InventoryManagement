@@ -12,5 +12,7 @@ namespace StockHQ.API.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        //collection of categories
+        //dbset is a set of objects from the database
     }
 }

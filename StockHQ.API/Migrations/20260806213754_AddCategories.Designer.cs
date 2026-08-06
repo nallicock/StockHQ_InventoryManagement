@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StockHQ.API.Data;
 
@@ -11,9 +12,11 @@ using StockHQ.API.Data;
 namespace StockHQ.API.Migrations
 {
     [DbContext(typeof(StockHQDbContext))]
-    partial class StockHQDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260806213754_AddCategories")]
+    partial class AddCategories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
