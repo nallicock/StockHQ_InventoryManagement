@@ -8,6 +8,6 @@ namespace StockHQ.API.Interfaces
         Task<Product?> GetProductByIdAsync(int id);
         Task<Product> CreateProductAsync(Product product);
         Task UpdateProductAsync(Product product);
-        Task DeleteProductProductAsync(int id);
+        Task DeleteProductAsync(int id);
     }
 }
