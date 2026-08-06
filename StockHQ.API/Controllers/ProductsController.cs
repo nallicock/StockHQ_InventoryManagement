@@ -14,7 +14,7 @@ namespace StockHQ.API.Controllers
 
         public ProductsController(IProductService productService)
         {
-            _productService = _productService;
+            _productService = productService;
         }
 
         //GET endpoint
