@@ -1,6 +1,10 @@
-﻿namespace StockHQ.API.Interfaces
+﻿namespace StockHQ.API.Models;
+
+public interface ICategoryService
 {
-    public interface ICategoryService
-    {
-    }
+    Task<IEnumerable<Category>> GetAllCategoriesAsync();
+    Task<Category?> GetCategoryByIdAsync(int id);
+    Task<Category> CreateCategoryAsync(Category category);
+    Task UpdateCategoryAsync(Category category);
+    Task DeleteCategoryAsync(int id);
 }
