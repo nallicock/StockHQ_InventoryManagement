@@ -9,9 +9,9 @@ namespace StockHQ.API.Services
             //looking at the interface not implementation
             private readonly IProductRepository _repository;
 
+            //.NET Core injects an IProductRepository when it creates a ProductService
             public ProductService(IProductRepository repository)
             {
-            //when creating a ProductService, pass through an IProductRepository
                 _repository = repository;
             }
             
@@ -32,7 +32,7 @@ namespace StockHQ.API.Services
 
             public async Task UpdateProductAsync(Product product)
             {
-                await _repository.AddAsync(product);
+                await _repository.UpdateAsync(product);
             }
 
             public async Task DeleteProductAsync(int id)

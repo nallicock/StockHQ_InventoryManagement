@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using StockHQ.API.Data;
 using StockHQ.API.Interfaces;
 using StockHQ.API.Repositories;
+using StockHQ.API.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,9 @@ builder.Services.AddControllers();
 
 //whenever an IProductRepository is needed, create a ProductRepository
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+//when IProductService is requested, create a ProductService
+builder.Services.AddScoped<IProductService, ProductService>();
 
 //create option for StockHQDbContext constructor to use SQL Server
 builder.Services.AddDbContext<StockHQDbContext>(options =>

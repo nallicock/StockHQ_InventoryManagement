@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using StockHQ.API.Data;
+using StockHQ.API.Interfaces;
 using StockHQ.API.Models;
 
 namespace StockHQ.API.Controllers
@@ -10,13 +10,11 @@ namespace StockHQ.API.Controllers
     public class ProductsController : ControllerBase
     {
         //hold db connection
-        private readonly StockHQDbContext _context;
+        private readonly IProductService _productService;
 
-        public ProductsController(StockHQDbContext context)
+        public ProductsController(IProductService productService)
         {
-            //dependency injection - controller needs a StockHqDbContext
-            //stored in Program.cs
-            _context = context;
+            _productService = _productService;
         }
 
         //GET endpoint
@@ -34,7 +32,7 @@ namespace StockHQ.API.Controllers
             //_context.Products represents the products table in sql server
             //StockHQDbContext
             //ToListAsync tells EF Core to run sql query and return each row from products table as a List<Product>
-            var products = await _context.Products.ToListAsync();
+            var products = await _productService.GetAllProductsAsync();
 
             return Ok(products);
         }
@@ -45,9 +43,8 @@ namespace StockHQ.API.Controllers
         {
             //track new product since we want to add to database
             //nothing saved yet
-            _context.Products.Add(product);
+            await _productService.CreateProductAsync(product);
 
-            await _context.SaveChangesAsync();
             //EF generates SQL behind the scenes with the SaveChangesAsync() method
             //product then inserted into the database
 
@@ -67,7 +64,7 @@ namespace StockHQ.API.Controllers
         {
 
             //async find product from within contextdb products with matching id
-            var product = await _context.Products.FindAsync(id);
+            var product = await _productService.GetProductByIdAsync(id);
 
             //if not found, show 404
             if (product == null)
@@ -90,11 +87,7 @@ namespace StockHQ.API.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(product).State = EntityState.Modified;
-            //object exists in the db and values are changed
-
-            await _context.SaveChangesAsync();
-            //UPDATE is run in SQL and saved
+            await _productService.UpdateProductAsync(product);
 
             //204 response code normal to return no content after update because there is nothing left to do
             return NoContent();
@@ -103,7 +96,7 @@ namespace StockHQ.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _productService.GetProductByIdAsync(id);
             //does this actually exist? SQL Select query is run in the backend
 
             if(product == null)
@@ -112,10 +105,7 @@ namespace StockHQ.API.Controllers
                 //404 response product is null
             }
 
-            _context.Products.Remove(product);
-            //do not delete row immediately. Track this product and delete when I save
-
-            await _context.SaveChangesAsync();
+            await _productService.DeleteProductAsync(id);
             //delete this row now - EF Core sends the SQL to SQL Server.
 
 
