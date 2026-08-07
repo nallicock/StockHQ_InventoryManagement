@@ -35,7 +35,19 @@ namespace StockHQ.API.Controllers
             //ToListAsync tells EF Core to run sql query and return each row from products table as a List<Product>
             var products = await _productService.GetAllProductsAsync();
 
-            return Ok(products);
+            var response = products.Select(product => new ProductResponse
+            {
+                Id = product.Id,
+                Name = product.Name,
+                SKU = product.SKU,
+                Description = product.Description,
+                Price = product.Price,
+                QuantityInStock = product.QuantityInStock,
+                CategoryId = product.CategoryId,
+                CreatedAt = product.CreatedAt
+            });
+
+            return Ok(response);
         }
 
         [HttpPost]
