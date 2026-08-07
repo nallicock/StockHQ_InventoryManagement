@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using StockHQ.API.DTOs;
 using StockHQ.API.Interfaces;
 using StockHQ.API.Models;
 
@@ -38,9 +39,18 @@ namespace StockHQ.API.Controllers
         }
 
         [HttpPost]
-        //Product product is from request body - perform model binding
-        public async Task<ActionResult<Product>> CreateProduct(Product product)
+        public async Task<ActionResult<Product>> CreateProduct(CreateProductRequest request)
         {
+            //API controls what gets saved. Application controls createdat and id
+            var product = new Product
+            {
+                Name = request.Name,
+                SKU = request.SKU,
+                Description = request.Description,
+                Price = request.Price,
+                QuantityInStock = request.QuantityInStock,
+                CategoryId = request.CategoryId
+            };
             //track new product since we want to add to database
             //nothing saved yet
             await _productService.CreateProductAsync(product);
