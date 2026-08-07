@@ -46,7 +46,16 @@ namespace StockHQ.API.Services
 
         public async Task ReceiveStockAsync(int productId, int quantity)
         {
+            var product = await _repository.GetByIdAsync(productId);
 
+            if(product == null)
+            {
+                throw new Exception("Product not found.");
+            }
+
+            product.QuantityInStock += quantity;
+
+            await _repository.UpdateAsync(product);
         }
     }
 }

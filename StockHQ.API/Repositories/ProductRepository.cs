@@ -33,7 +33,7 @@ namespace StockHQ.API.Repositories
 
         public async Task UpdateAsync(Product product)
         {
-            _context.Entry(product).State = EntityState.Modified;
+            _context.Products.Update(product);
 
             await _context.SaveChangesAsync();
         }
