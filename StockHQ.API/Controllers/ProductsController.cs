@@ -70,7 +70,19 @@ namespace StockHQ.API.Controllers
             //EF generates SQL behind the scenes with the SaveChangesAsync() method
             //product then inserted into the database
 
-            return CreatedAtAction(nameof(GetProducts), new { id = product.Id }, product);
+            var response = new ProductResponse
+            {
+                Id = product.Id,
+                Name = product.Name,
+                SKU = product.SKU,
+                Description = product.Description,
+                Price = product.Price,
+                QuantityInStock = product.QuantityInStock,
+                CategoryId = product.CategoryId,
+                CreatedAt = product.CreatedAt
+            };
+
+            return CreatedAtAction(nameof(GetProducts), new { id = product.Id }, response);
             /*
             HTTP 201 Created HTTP response code returned with CreatedAtAction
             nameof() returns the name of something as a string, so in this case "GetProducts"
