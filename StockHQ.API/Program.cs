@@ -14,9 +14,11 @@ builder.Services.AddControllers();
 //whenever an IProductRepository is needed, create a ProductRepository
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IInventoryTransactionRepository, InventoryTransactionRepository>();
 //when IProductService is requested, create a ProductService
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IInventoryTransactionService, InventoryTransactionService>();
 
 //create option for StockHQDbContext constructor to use SQL Server
 builder.Services.AddDbContext<StockHQDbContext>(options =>
