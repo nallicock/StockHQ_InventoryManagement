@@ -23,6 +23,18 @@ namespace StockHQ.API.Controllers
             return Ok(categories);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<Category>> CreateCategory(Category category)
+        {
+            var createdCategory = await _categoryService.CreateCategoryAsync(category);
+
+            return CreatedAtAction(
+
+                nameof(GetCategory),
+                new { id = createdCategory.Id },
+                createdCategory);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
