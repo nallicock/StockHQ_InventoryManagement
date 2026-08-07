@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using StockHQ.API.Models;
 
 namespace StockHQ.API.Data
 {
-    public class StockHQDbContext : DbContext
+    public class StockHQDbContext : IdentityDbContext<AppUser>
     {
         public StockHQDbContext(DbContextOptions<StockHQDbContext> options)
             : base(options)

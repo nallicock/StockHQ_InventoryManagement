@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StockHQ.API.Data;
 using StockHQ.API.Interfaces;
@@ -24,6 +25,12 @@ builder.Services.AddScoped<IInventoryTransactionService, InventoryTransactionSer
 builder.Services.AddDbContext<StockHQDbContext>(options =>
 options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//Use AppUser as our user and IdentityRole for roles.
+//Store the users and roles in the StockHQ database
+builder.Services.AddIdentity<AppUser, IdentityRole>()
+    .AddEntityFrameworkStores<StockHQDbContext>()
+    .AddDefaultTokenProviders();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
