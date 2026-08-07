@@ -56,6 +56,15 @@ namespace StockHQ.API.Services
             product.QuantityInStock += quantity;
 
             await _repository.UpdateAsync(product);
+
+            var transaction = new InventoryTransaction
+            {
+                ProductId = product.Id,
+                QuantityChanged = quantity,
+                Reason = "Received"
+            };
+
+            await _transactionRepository.AddAsync(transaction);
         }
     }
 }
