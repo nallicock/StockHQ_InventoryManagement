@@ -1,5 +1,6 @@
 ﻿using StockHQ.API.Interfaces;
 using StockHQ.API.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace StockHQ.API.Services
 {
@@ -103,6 +104,11 @@ namespace StockHQ.API.Services
             };
 
             await _transactionRepository.AddAsync(transaction);
+        }
+
+        public async Task<IEnumerable<InventoryTransaction>> GetInventoryHistoryAsync(int productId)
+        {
+            return await _transactionRepository.GetByProductIdAsync(productId);
         }
     }
 }

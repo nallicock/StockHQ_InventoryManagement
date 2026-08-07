@@ -182,6 +182,14 @@ namespace StockHQ.API.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("{id}/history")]
+        public async Task<ActionResult<IEnumerable<InventoryTransaction>>> GetInventoryHistory(int id )
+        {
+            var history = await _productService.GetInventoryHistoryAsync(id);
+
+            return Ok(history);
+        }
     }
 }
 

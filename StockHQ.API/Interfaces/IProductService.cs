@@ -11,5 +11,6 @@ namespace StockHQ.API.Interfaces
         Task DeleteProductAsync(int id);
         Task ReceiveStockAsync(int productId, int quantity);
         Task SellStockAsync(int id, int quantity);
+        Task<IEnumerable<InventoryTransaction>> GetInventoryHistoryAsync(int productId);
     }
 }
