@@ -174,6 +174,14 @@ namespace StockHQ.API.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("{id}/sell")]
+        public async Task<IActionResult> SellStock(int id, SellStockRequest request)
+        {
+            await _productService.SellStockAsync(id, request.Quantity);
+
+            return NoContent();
+        }
     }
 }
 

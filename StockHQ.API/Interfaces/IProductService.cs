@@ -10,5 +10,6 @@ namespace StockHQ.API.Interfaces
         Task UpdateProductAsync(Product product);
         Task DeleteProductAsync(int id);
         Task ReceiveStockAsync(int productId, int quantity);
+        Task SellStockAsync(int id, int quantity);
     }
 }
