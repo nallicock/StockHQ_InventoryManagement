@@ -4,6 +4,8 @@ using StockHQ.API.Models;
 
 namespace StockHQ.API.Services
 {
+
+    //email > find user > does user exist? > check pw hash > true/false
     public class AuthService : IAuthService
     {
         private readonly UserManager<AppUser> _userManager;
@@ -22,6 +24,18 @@ namespace StockHQ.API.Services
             };
 
             return await _userManager.CreateAsync(user, password);
+        }
+
+        public async Task<bool> LoginAsync(string email, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            return await _userManager.CheckPasswordAsync(user, password);
         }
     }
 }
