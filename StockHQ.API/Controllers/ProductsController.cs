@@ -123,17 +123,25 @@ namespace StockHQ.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, Product product)
+        public async Task<IActionResult> UpdateProduct(int id, UpdateProductRequest request)
         //IActionResult - return some kind of HTTP response
         //ActionResult - return some kind of HTTP response and if successful it contains a Product
         {
-            if (id != product.Id)
+            var existingProduct = await _productService.GetProductByIdAsync(id);
+
+            if (existingProduct == null)
             {
-                //400 response id is invalid
-                return BadRequest();
+                return NotFound();
             }
 
-            await _productService.UpdateProductAsync(product);
+            existingProduct.Name = request.Name;
+            existingProduct.SKU = request.SKU;
+            existingProduct.Description = request.Description;
+            existingProduct.Price = request.Price;
+            existingProduct.QuantityInStock = request.QuantityInStock;
+            existingProduct.CategoryId = request.CategoryId;
+
+            await _productService.UpdateProductAsync(existingProduct);
 
             //204 response code normal to return no content after update because there is nothing left to do
             return NoContent();
