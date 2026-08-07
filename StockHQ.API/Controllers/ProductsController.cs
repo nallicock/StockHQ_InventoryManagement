@@ -166,6 +166,14 @@ namespace StockHQ.API.Controllers
             return NoContent();
             //Return 204 delete succeeded but there is nothing useful to send back.
         }
+
+        [HttpPost("{id}/receive")]
+        public async Task<IActionResult> ReceiveStock(int id, ReceiveStockRequest request)
+        {
+            await _productService.ReceiveStockAsync(id, request.Quantity);
+
+            return NoContent();
+        }
     }
 }
 
