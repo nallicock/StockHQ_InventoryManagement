@@ -32,5 +32,21 @@ namespace StockHQ.API.Controllers
 
             return Ok("User registered successfully.");
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginRequest request)
+        {
+            var loginSucceeded = await _authService.LoginAsync(
+                request.Email,
+                request.Password);
+
+            if (!loginSucceeded)
+
+            {
+                return Unauthorized("Invalid email or password");
+            }
+
+            return Ok("Login successful!");
+        }
     }
 }
