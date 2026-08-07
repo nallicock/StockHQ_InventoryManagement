@@ -66,5 +66,33 @@ namespace StockHQ.API.Services
 
             await _transactionRepository.AddAsync(transaction);
         }
+
+        public async Task SellStockAsync(int productId, int quantity)
+        {
+            var product = await _repository.GetByIdAsync(productId);
+
+            if(product == null)
+            {
+                throw new Exception("Product not found.");
+            }
+
+            if(product.QuantityInStock < quantity)
+            {
+                throw new Exception("Not enough stock available.");
+            }
+
+            product.QuantityInStock -= quantity;
+
+            await _repository.UpdateAsync(product);
+
+            var transaction = new InventoryTransaction
+            {
+                ProductId = product.Id,
+                QuantityChanged = -quantity,
+                Reason = "Sold"
+            };
+
+            await _transactionRepository.AddAsync(transaction);
+        }
     }
 }
