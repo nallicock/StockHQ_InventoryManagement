@@ -7,37 +7,46 @@ namespace StockHQ.API.Services
     {
 
             //looking at the interface not implementation
-            private readonly IProductRepository _repository;
+        private readonly IProductRepository _repository;
+        private readonly IInventoryTransactionRepository _transactionRepository;
 
             //.NET Core injects an IProductRepository when it creates a ProductService
-            public ProductService(IProductRepository repository)
-            {
-                _repository = repository;
-            }
-            
-            public async Task<IEnumerable<Product>> GetAllProductsAsync()
-            {
-                return await _repository.GetAllAsync();
-            }
-
-            public async Task<Product?> GetProductByIdAsync(int id)
-            {
-                return await _repository.GetByIdAsync(id);
-            }
-
-            public async Task<Product> CreateProductAsync(Product product)
-            {
-                return await _repository.AddAsync(product);
-            }
-
-            public async Task UpdateProductAsync(Product product)
-            {
-                await _repository.UpdateAsync(product);
-            }
-
-            public async Task DeleteProductAsync(int id)
-            {
-                await _repository.DeleteAsync(id);
-            }
+        public ProductService(
+            IProductRepository repository,
+            IInventoryTransactionRepository transactionRepository)
+        {
+            _repository = repository;
+            _transactionRepository = transactionRepository;
         }
+            
+        public async Task<IEnumerable<Product>> GetAllProductsAsync()
+        {
+            return await _repository.GetAllAsync();
+        }
+
+        public async Task<Product?> GetProductByIdAsync(int id)
+        {
+            return await _repository.GetByIdAsync(id);
+        }
+
+        public async Task<Product> CreateProductAsync(Product product)
+        {
+            return await _repository.AddAsync(product);
+        }
+
+        public async Task UpdateProductAsync(Product product)
+        {
+            await _repository.UpdateAsync(product);
+        }
+
+        public async Task DeleteProductAsync(int id)
+        {
+            await _repository.DeleteAsync(id);
+        }
+
+        public async Task ReceiveStockAsync(int productId, int quantity)
+        {
+
+        }
+    }
 }
