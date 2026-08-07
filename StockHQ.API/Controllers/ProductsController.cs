@@ -150,12 +150,12 @@ namespace StockHQ.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = await _productService.GetProductByIdAsync(id);
+            var existingProduct = await _productService.GetProductByIdAsync(id);
             //does this actually exist? SQL Select query is run in the backend
 
-            if(product == null)
+            if(existingProduct == null)
             {
-                return NotFound();
+                return NotFound("Product not found");
                 //404 response product is null
             }
 
