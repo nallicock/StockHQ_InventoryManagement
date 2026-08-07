@@ -46,6 +46,11 @@ namespace StockHQ.API.Services
 
         public async Task ReceiveStockAsync(int productId, int quantity)
         {
+            if (quantity <= 0)
+            {
+                throw new Exception("Quantity must be greater than 0!");
+            }
+
             var product = await _repository.GetByIdAsync(productId);
 
             if(product == null)
@@ -69,6 +74,11 @@ namespace StockHQ.API.Services
 
         public async Task SellStockAsync(int productId, int quantity)
         {
+            if (quantity <= 0)
+            {
+                throw new Exception("Quantity must be greater than 0!");
+            }
+
             var product = await _repository.GetByIdAsync(productId);
 
             if(product == null)
