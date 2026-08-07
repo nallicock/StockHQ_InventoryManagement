@@ -20,6 +20,9 @@ builder.Services.AddScoped<IInventoryTransactionRepository, InventoryTransaction
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IInventoryTransactionService, InventoryTransactionService>();
+//how to create authservice when something asks for IAuthService
+//dependency injection
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 //create option for StockHQDbContext constructor to use SQL Server
 builder.Services.AddDbContext<StockHQDbContext>(options =>
