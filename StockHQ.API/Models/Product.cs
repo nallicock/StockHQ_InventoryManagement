@@ -14,5 +14,8 @@
         public Category? Category { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+        //one product can have many (in this case, a collection of) transactions
+        public ICollection<InventoryTransaction> InventoryTransactions { get; set; } = new List<InventoryTransaction>();
+
     }
 }
