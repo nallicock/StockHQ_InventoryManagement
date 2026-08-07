@@ -82,7 +82,7 @@ namespace StockHQ.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<ProductResponse>> GetProduct(int id)
         {
 
             //async find product from within contextdb products with matching id
@@ -94,8 +94,20 @@ namespace StockHQ.API.Controllers
                 return NotFound();
             }
 
+            var response = new ProductResponse
+            {
+                Id = product.Id,
+                Name = product.Name,
+                SKU = product.SKU,
+                Description = product.Description,
+                Price = product.Price,
+                QuantityInStock = product.QuantityInStock,
+                CategoryId = product.CategoryId,
+                CreatedAt = product.CreatedAt
+            };
+
             //if found, 200 OK return code
-            return Ok(product);
+            return Ok(response);
         }
 
         [HttpPut("{id}")]
