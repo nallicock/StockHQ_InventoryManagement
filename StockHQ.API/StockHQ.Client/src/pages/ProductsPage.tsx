@@ -71,6 +71,58 @@ function ProductsPage() {
   return (
     <div>
       <h1>Products!</h1>
+
+      <form onSubmit={handleCreateProduct}>
+        <div>
+          <label>Name</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          />
+        </div>
+
+        <div>
+          <label>SKU</label>
+          <input
+            type="text"
+            value={sku}
+            onChange={(event) => setSku(event.target.value)}
+          />
+        </div>
+        <div>
+          <label>Description</label>
+          <input
+            type="text"
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+          />
+        </div>
+        <div>
+          <label>Price</label>
+          <input
+            type="number"
+            value={price}
+            onChange={(event) => setPrice(Number(event.target.value))}
+          />
+        </div>
+        <div>
+          <label>Quantity</label>
+          <input
+            type="number"
+            value={quantityInStock}
+            onChange={(event) => setQuantityInStock(Number(event.target.value))}
+          />
+        </div>
+        <div>
+          <label>Category ID</label>
+          <input
+            type="number"
+            value={categoryId}
+            onChange={(event) => setCategoryId(Number(event.target.value))}
+          />
+        </div>
+      </form>
       <h2>Create Product</h2>
       {products.map((product) => (
         <div key={product.id}>
