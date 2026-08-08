@@ -13,6 +13,12 @@ export async function getProducts(): Promise<Product[]> {
   return await response.json();
 }
 
+/*
+receive stock process:
+React > get JWT from localStorage > POST /api/products/1/receive
+> Authorization: Bearer <JWT> > .NET validates token
+ > [Authorize(Roles = "Admin, Employee")] > Receive Stock
+*/
 export async function receiveStock(productId: number, quantity: number) {
   const token = localStorage.getItem("token");
 
