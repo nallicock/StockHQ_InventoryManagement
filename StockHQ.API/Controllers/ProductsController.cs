@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using StockHQ.API.DTOs;
 using StockHQ.API.Interfaces;
 using StockHQ.API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StockHQ.API.Controllers
 {
@@ -166,7 +167,7 @@ namespace StockHQ.API.Controllers
             return NoContent();
             //Return 204 delete succeeded but there is nothing useful to send back.
         }
-
+        [Authorize]
         [HttpPost("{id}/receive")]
         public async Task<IActionResult> ReceiveStock(int id, ReceiveStockRequest request)
         {
