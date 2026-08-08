@@ -94,7 +94,7 @@ export async function createProduct(request: CreateProductRequest) {
 
 export type UpdateProductRequest = {
   name: string;
-  sky: string;
+  sku: string;
   description: string;
   price: number;
   quantityInStock: number;

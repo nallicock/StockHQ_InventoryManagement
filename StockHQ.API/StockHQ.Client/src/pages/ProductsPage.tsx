@@ -5,6 +5,7 @@ import {
   receiveStock,
   sellStock,
   createProduct,
+  updateProduct,
 } from "../services/productService";
 
 function ProductsPage() {
@@ -15,6 +16,7 @@ function ProductsPage() {
   const [price, setPrice] = useState(0);
   const [quantityInStock, setQuantityInStock] = useState(0);
   const [categoryId, setCategoryId] = useState(0);
+  const [editingProductId, setEditingProductId] = useState<number | null>(null);
 
   useEffect(() => {
     getProducts()
@@ -52,20 +54,45 @@ function ProductsPage() {
     event.preventDefault();
 
     try {
-      await createProduct({
-        name,
-        sku,
-        description,
-        price,
-        quantityInStock,
-        categoryId,
-      });
+      if (editingProductId !== null) {
+        await updateProduct(editingProductId, {
+          name,
+          sku,
+          description,
+          price,
+          quantityInStock,
+          categoryId,
+        });
+      } else {
+        await createProduct({
+          name,
+          sku,
+          description,
+          price,
+          quantityInStock,
+          categoryId,
+        });
+      }
 
       const updatedProducts = await getProducts();
       setProducts(updatedProducts);
+
+      setEditingProductId(null);
     } catch (error) {
       console.error(error);
     }
+  }
+
+  //preload selected product's existing values into form
+  async function handleEditProduct(product: Product) {
+    setEditingProductId(product.id);
+
+    setName(product.name);
+    setSku(product.sku);
+    setDescription(product.description);
+    setPrice(product.price);
+    setQuantityInStock(product.quantityInStock);
+    setCategoryId(product.categoryId);
   }
 
   return (
@@ -122,6 +149,9 @@ function ProductsPage() {
             onChange={(event) => setCategoryId(Number(event.target.value))}
           />
         </div>
+        <button type="submit">
+          {editingProductId !== null ? "Update Product" : "Create Product"}
+        </button>
       </form>
       <h2>Create Product</h2>
       {products.map((product) => (
@@ -135,6 +165,7 @@ function ProductsPage() {
             Receive 5
           </button>
           <button onClick={() => handleSellStock(product.id)}>Sell 5</button>
+          <button onClick={() => handleEditProduct(product)}>Edit</button>
         </div>
       ))}
     </div>
