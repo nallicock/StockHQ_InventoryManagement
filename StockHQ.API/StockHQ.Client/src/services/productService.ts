@@ -91,3 +91,35 @@ export async function createProduct(request: CreateProductRequest) {
 
   return await response.json();
 }
+
+export type UpdateProductRequest = {
+  name: string;
+  sky: string;
+  description: string;
+  price: number;
+  quantityInStock: number;
+  categoryId: number;
+};
+
+export async function updateProduct(
+  productId: number,
+  request: UpdateProductRequest,
+) {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(
+    `https://localhost:7290/api/products/${productId}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(request),
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to update product.");
+  }
+}
