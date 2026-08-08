@@ -51,6 +51,7 @@ namespace StockHQ.API.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct(CreateProductRequest request)
         {
@@ -123,6 +124,7 @@ namespace StockHQ.API.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, UpdateProductRequest request)
         //IActionResult - return some kind of HTTP response
