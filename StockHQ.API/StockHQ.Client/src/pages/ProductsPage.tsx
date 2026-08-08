@@ -4,10 +4,17 @@ import {
   getProducts,
   receiveStock,
   sellStock,
+  createProduct,
 } from "../services/productService";
 
 function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [name, setName] = useState("");
+  const [sku, setSku] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState(0);
+  const [quantityInStock, setQuantityInStock] = useState(0);
+  const [categoryId, setCategoryId] = useState(0);
 
   useEffect(() => {
     getProducts()
@@ -41,10 +48,30 @@ function ProductsPage() {
     }
   }
 
+  async function handleCreateProduct(event: React.FormEvent) {
+    event.preventDefault();
+
+    try {
+      await createProduct({
+        name,
+        sku,
+        description,
+        price,
+        quantityInStock,
+        categoryId,
+      });
+
+      const updatedProducts = await getProducts();
+      setProducts(updatedProducts);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div>
       <h1>Products!</h1>
-
+      <h2>Create Product</h2>
       {products.map((product) => (
         <div key={product.id}>
           <h2>{product.name}</h2>

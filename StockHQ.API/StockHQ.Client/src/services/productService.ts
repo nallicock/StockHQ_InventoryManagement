@@ -63,3 +63,31 @@ export async function sellStock(productId: number, quantity: number) {
     throw new Error("Failed to sell stock.");
   }
 }
+
+export type CreateProductRequest = {
+  name: string;
+  sku: string;
+  description: string;
+  price: number;
+  quantityInStock: number;
+  categoryId: number;
+};
+
+export async function createProduct(request: CreateProductRequest) {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch("https://localhost:7920/api/products", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to create product.");
+  }
+
+  return await response.json();
+}
