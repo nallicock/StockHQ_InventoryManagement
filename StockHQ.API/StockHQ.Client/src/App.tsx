@@ -4,6 +4,9 @@ import LoginPage from "./pages/LoginPage";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 function App() {
+  function handleLogout() {
+    localStorage.removeItem("token");
+  }
   return (
     <BrowserRouter>
       <nav>
@@ -12,6 +15,8 @@ function App() {
         <Link to="/products">Products</Link>
         {" | "}
         <Link to="/categories">Categories</Link>
+        {" | "}
+        <button onClick={handleLogout}>Logout</button>
       </nav>
 
       <Routes>

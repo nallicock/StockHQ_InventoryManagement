@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { login } from "../services/authService";
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,6 +16,7 @@ function LoginPage() {
       //allow a browser to keep a value even after page refresh
       console.log("Login result: ", result);
       localStorage.setItem("token", result.token);
+      navigate("/products");
     } catch (error) {
       console.log(error);
     }
