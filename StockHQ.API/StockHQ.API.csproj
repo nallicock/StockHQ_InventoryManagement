@@ -23,6 +23,9 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="StockHQ.Client\src\pages\" />
+    <Folder Include="StockHQ.Client\src\services\" />
+    <Folder Include="StockHQ.Client\src\types\" />
   </ItemGroup>
 
 </Project>
