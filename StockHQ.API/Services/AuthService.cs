@@ -25,6 +25,7 @@ namespace StockHQ.API.Services
             _configuration = configuration;
         }
 
+        //create user > save result > assign employee role
         public async Task<IdentityResult> RegisterAsync(string email, string password)
         {
             var user = new AppUser
@@ -33,7 +34,14 @@ namespace StockHQ.API.Services
                 Email = email
             };
 
-            return await _userManager.CreateAsync(user, password);
+            var result = await _userManager.CreateAsync(user, password);
+
+            if(result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "Employee");
+            }
+
+            return result;
         }
 
         public async Task<string?> LoginAsync(string email, string password)
@@ -52,12 +60,19 @@ namespace StockHQ.API.Services
                 return null;
             }
 
+            var roles = await _userManager.GetRolesAsync(user);
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Email, user.Email!)
             };
 
+
+            foreach(var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
 
