@@ -170,7 +170,8 @@ namespace StockHQ.API.Controllers
             return NoContent();
             //Return 204 delete succeeded but there is nothing useful to send back.
         }
-        [Authorize]
+
+        [Authorize(Roles = "Admin,Employee")]
         [HttpPost("{id}/receive")]
         public async Task<IActionResult> ReceiveStock(int id, ReceiveStockRequest request)
         {
@@ -179,7 +180,7 @@ namespace StockHQ.API.Controllers
             return NoContent();
         }
 
-        [HttpPost("{id}/sell")]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> SellStock(int id, SellStockRequest request)
         {
             await _productService.SellStockAsync(id, request.Quantity);
