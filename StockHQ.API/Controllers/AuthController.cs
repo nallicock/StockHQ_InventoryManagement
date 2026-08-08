@@ -36,17 +36,17 @@ namespace StockHQ.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)
         {
-            var loginSucceeded = await _authService.LoginAsync(
+            var token = await _authService.LoginAsync(
                 request.Email,
                 request.Password);
 
-            if (!loginSucceeded)
+            if (token == null)
 
             {
                 return Unauthorized("Invalid email or password");
             }
 
-            return Ok("Login successful!");
+            return Ok(new { token });
         }
     }
 }
