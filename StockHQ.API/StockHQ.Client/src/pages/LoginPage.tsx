@@ -12,7 +12,8 @@ function LoginPage() {
       const result = await login(email, password);
 
       //allow a browser to keep a value even after page refresh
-      localStorage.setITem("token", result.token);
+      console.log("Login result: ", result);
+      localStorage.setItem("token", result.token);
     } catch (error) {
       console.log(error);
     }
