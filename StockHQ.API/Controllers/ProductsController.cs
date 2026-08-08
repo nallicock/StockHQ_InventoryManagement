@@ -181,6 +181,7 @@ namespace StockHQ.API.Controllers
         }
 
         [Authorize(Roles = "Admin,Employee")]
+        [HttpPost("{id}/sell")]
         public async Task<IActionResult> SellStock(int id, SellStockRequest request)
         {
             await _productService.SellStockAsync(id, request.Quantity);

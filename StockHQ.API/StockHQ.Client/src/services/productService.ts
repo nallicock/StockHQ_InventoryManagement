@@ -37,3 +37,29 @@ export async function receiveStock(productId: number, quantity: number) {
     throw new Error("Failed to receive stock");
   }
 }
+
+export async function sellStock(productId: number, quantity: number) {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(
+    `https://localhost:7290/api/products/${productId}/sell`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        quantity,
+      }),
+    },
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+
+    console.error("Sell stock failed:", response.status, errorText);
+
+    throw new Error("Failed to sell stock.");
+  }
+}

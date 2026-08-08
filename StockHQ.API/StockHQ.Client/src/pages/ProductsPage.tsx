@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import type { Product } from "../types/Product";
-import { getProducts } from "../services/productService";
-import { receiveStock } from "../services/productService";
+import {
+  getProducts,
+  receiveStock,
+  sellStock,
+} from "../services/productService";
 
 function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -24,6 +27,20 @@ function ProductsPage() {
       console.error(error);
     }
   }
+
+  async function handleSellStock(productId: number) {
+    const quantity = 5;
+
+    try {
+      await sellStock(productId, quantity);
+
+      const updatedProducts = await getProducts();
+      setProducts(updatedProducts);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div>
       <h1>Products!</h1>
@@ -38,6 +55,7 @@ function ProductsPage() {
           <button onClick={() => handleReceiveStock(product.id)}>
             Receive 5
           </button>
+          <button onClick={() => handleSellStock(product.id)}>Sell 5</button>
         </div>
       ))}
     </div>
