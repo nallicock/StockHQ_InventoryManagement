@@ -6,7 +6,8 @@ namespace StockHQ.API.Interfaces
     public interface IAuthService
     {
         Task<IdentityResult> RegisterAsync(string email, string password);
-        Task<bool> LoginAsync(string email, string password);
+        //return JWT string if login succeeds or null if fails
+        Task<string?> LoginAsync(string email, string password);
         //interface now has both login and register.
     }
 }
