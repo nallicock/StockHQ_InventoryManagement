@@ -1,13 +1,23 @@
 import ProductsPage from "./pages/ProductsPage";
 import CategoriesPage from "./pages/CategoriesPage";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 function App() {
   return (
     <BrowserRouter>
+      <nav>
+        <Link to="/login">Login</Link>
+        {" | "}
+        <Link to="/products">Products</Link>
+        {" | "}
+        <Link to="/categories">Categories</Link>
+      </nav>
+
       <Routes>
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/categories" element={<CategoriesPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
   );

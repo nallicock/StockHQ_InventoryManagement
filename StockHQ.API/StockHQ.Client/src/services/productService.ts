@@ -12,3 +12,22 @@ export async function getProducts(): Promise<Product[]> {
 
   return await response.json();
 }
+
+export async function receiveStock(productId: number, quantity: number) {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_URL}/${productId}/receive`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      quantity,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to receive stock");
+  }
+}
