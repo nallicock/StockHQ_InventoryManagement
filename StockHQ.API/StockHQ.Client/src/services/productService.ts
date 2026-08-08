@@ -76,7 +76,7 @@ export type CreateProductRequest = {
 export async function createProduct(request: CreateProductRequest) {
   const token = localStorage.getItem("token");
 
-  const response = await fetch("https://localhost:7920/api/products", {
+  const response = await fetch(`${API_URL}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -121,5 +121,25 @@ export async function updateProduct(
 
   if (!response.ok) {
     throw new Error("Failed to update product.");
+  }
+}
+
+//calls DELETE /api/products/{id}
+//admin only
+export async function deleteProduct(productId: number) {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(
+    `https://localhost:7290/api/products/${productId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to delete product.");
   }
 }

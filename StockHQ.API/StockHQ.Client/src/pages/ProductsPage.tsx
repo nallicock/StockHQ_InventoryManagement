@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 import type { Product } from "../types/Product";
+import type { Category } from "../types/Category";
 import {
   getProducts,
   receiveStock,
   sellStock,
   createProduct,
   updateProduct,
+  deleteProduct,
 } from "../services/productService";
+
+import { getCategories } from "../services/categoryService";
 
 function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [name, setName] = useState("");
   const [sku, setSku] = useState("");
   const [description, setDescription] = useState("");
@@ -21,6 +26,12 @@ function ProductsPage() {
   useEffect(() => {
     getProducts()
       .then((data) => setProducts(data))
+      .catch((error) => console.error(error));
+  }, []);
+
+  useEffect(() => {
+    getCategories()
+      .then((data) => setCategories(data))
       .catch((error) => console.error(error));
   }, []);
 
@@ -95,6 +106,17 @@ function ProductsPage() {
     setCategoryId(product.categoryId);
   }
 
+  async function handleDeleteProduct(productId: number) {
+    try {
+      await deleteProduct(productId);
+
+      const updatedProducts = await getProducts();
+      setProducts(updatedProducts);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div>
       <h1>Products!</h1>
@@ -142,12 +164,19 @@ function ProductsPage() {
           />
         </div>
         <div>
-          <label>Category ID</label>
-          <input
-            type="number"
+          <label>Category</label>
+          <select
             value={categoryId}
             onChange={(event) => setCategoryId(Number(event.target.value))}
-          />
+          >
+            <option value={0}>Select a category</option>
+
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
         </div>
         <button type="submit">
           {editingProductId !== null ? "Update Product" : "Create Product"}
@@ -166,6 +195,9 @@ function ProductsPage() {
           </button>
           <button onClick={() => handleSellStock(product.id)}>Sell 5</button>
           <button onClick={() => handleEditProduct(product)}>Edit</button>
+          <button onClick={() => handleDeleteProduct(product.id)}>
+            Delete
+          </button>
         </div>
       ))}
     </div>
