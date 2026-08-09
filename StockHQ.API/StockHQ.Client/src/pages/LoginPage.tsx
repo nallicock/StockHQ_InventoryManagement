@@ -23,30 +23,36 @@ function LoginPage() {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="loginPage">
+      <div className="loginCard">
+        <h1>Welcome to StockHQ</h1>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="loginField">
+            <input
+              className="loginInput"
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
 
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
+          <div className="loginField">
+            <input
+              className="loginInput"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
 
-        <button type="submit">Login</button>
-      </form>
+          <button className="submit-btn" type="submit">
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
