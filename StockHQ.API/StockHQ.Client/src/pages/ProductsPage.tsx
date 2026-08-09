@@ -9,10 +9,16 @@ import {
   updateProduct,
   deleteProduct,
 } from "../services/productService";
-
+import { getUserRoles } from "../utils/auth";
 import { getCategories } from "../services/categoryService";
 
 function ProductsPage() {
+  const roles = getUserRoles();
+  const isAdmin = roles.includes("Admin");
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [name, setName] = useState("");
@@ -26,7 +32,8 @@ function ProductsPage() {
   useEffect(() => {
     getProducts()
       .then((data) => setProducts(data))
-      .catch((error) => console.error(error));
+      .catch((error) => setError("Failed to load products!"))
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -116,72 +123,81 @@ function ProductsPage() {
       console.error(error);
     }
   }
+  if (loading) {
+    return <p>Loading products......</p>;
+  }
 
+  if (error) {
+    return <p>{error}</p>;
+  }
   return (
     <div>
       <h1>Products!</h1>
+      {isAdmin && (
+        <form onSubmit={handleCreateProduct}>
+          <div>
+            <label>Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+            />
+          </div>
 
-      <form onSubmit={handleCreateProduct}>
-        <div>
-          <label>Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
-        </div>
+          <div>
+            <label>SKU</label>
+            <input
+              type="text"
+              value={sku}
+              onChange={(event) => setSku(event.target.value)}
+            />
+          </div>
+          <div>
+            <label>Description</label>
+            <input
+              type="text"
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+            />
+          </div>
+          <div>
+            <label>Price</label>
+            <input
+              type="number"
+              value={price}
+              onChange={(event) => setPrice(Number(event.target.value))}
+            />
+          </div>
+          <div>
+            <label>Quantity</label>
+            <input
+              type="number"
+              value={quantityInStock}
+              onChange={(event) =>
+                setQuantityInStock(Number(event.target.value))
+              }
+            />
+          </div>
+          <div>
+            <label>Category</label>
+            <select
+              value={categoryId}
+              onChange={(event) => setCategoryId(Number(event.target.value))}
+            >
+              <option value={0}>Select a category</option>
 
-        <div>
-          <label>SKU</label>
-          <input
-            type="text"
-            value={sku}
-            onChange={(event) => setSku(event.target.value)}
-          />
-        </div>
-        <div>
-          <label>Description</label>
-          <input
-            type="text"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          />
-        </div>
-        <div>
-          <label>Price</label>
-          <input
-            type="number"
-            value={price}
-            onChange={(event) => setPrice(Number(event.target.value))}
-          />
-        </div>
-        <div>
-          <label>Quantity</label>
-          <input
-            type="number"
-            value={quantityInStock}
-            onChange={(event) => setQuantityInStock(Number(event.target.value))}
-          />
-        </div>
-        <div>
-          <label>Category</label>
-          <select
-            value={categoryId}
-            onChange={(event) => setCategoryId(Number(event.target.value))}
-          >
-            <option value={0}>Select a category</option>
-
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <button type="submit">
-          {editingProductId !== null ? "Update Product" : "Create Product"}
-        </button>
-      </form>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button type="submit">
+            {editingProductId !== null ? "Update Product" : "Create Product"}
+          </button>
+        </form>
+      )}
       <h2>Create Product</h2>
       {products.map((product) => (
         <div key={product.id}>
@@ -194,10 +210,14 @@ function ProductsPage() {
             Receive 5
           </button>
           <button onClick={() => handleSellStock(product.id)}>Sell 5</button>
-          <button onClick={() => handleEditProduct(product)}>Edit</button>
-          <button onClick={() => handleDeleteProduct(product.id)}>
-            Delete
-          </button>
+          {isAdmin && (
+            <button onClick={() => handleEditProduct(product)}>Edit</button>
+          )}
+          {isAdmin && (
+            <button onClick={() => handleDeleteProduct(product.id)}>
+              Delete
+            </button>
+          )}
         </div>
       ))}
     </div>
