@@ -225,27 +225,47 @@ function ProductsPage() {
           </div>
         </div>
       )}
-      {products.map((product) => (
-        <div key={product.id}>
-          <h2>{product.name}</h2>
-          <p>SKU: {product.sku}</p>
-          <p>Price: ${product.price}</p>
-          <p>Stock: {product.quantityInStock}</p>
+      <table className="productsTable">
+        <thead>
+          <tr className="productsHeader">
+            <th>Product</th>
+            <th>SKU</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
 
-          <button onClick={() => handleReceiveStock(product.id)}>
-            Receive 5
-          </button>
-          <button onClick={() => handleSellStock(product.id)}>Sell 5</button>
-          {isAdmin && (
-            <button onClick={() => handleEditProduct(product)}>Edit</button>
-          )}
-          {isAdmin && (
-            <button onClick={() => handleDeleteProduct(product.id)}>
-              Delete
-            </button>
-          )}
-        </div>
-      ))}
+        <tbody>
+          {products.map((product) => (
+            <tr key={product.id}>
+              <td>{product.name}</td>
+              <td>SKU: {product.sku}</td>
+              <td>Price: ${product.price}</td>
+              <td>Stock: {product.quantityInStock}</td>
+
+              <td className="productActions">
+                <button onClick={() => handleReceiveStock(product.id)}>
+                  Receive 5
+                </button>
+                <button onClick={() => handleSellStock(product.id)}>
+                  Sell 5
+                </button>
+                {isAdmin && (
+                  <button onClick={() => handleEditProduct(product)}>
+                    Edit
+                  </button>
+                )}
+                {isAdmin && (
+                  <button onClick={() => handleDeleteProduct(product.id)}>
+                    Delete
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
