@@ -43,6 +43,16 @@ function ProductsPage() {
       .catch((error) => console.error(error));
   }, []);
 
+  function resetProductForm() {
+    setName("");
+    setSku("");
+    setDescription("");
+    setPrice(0);
+    setQuantityInStock(0);
+    setCategoryId(0);
+    setEditingProductId(null);
+  }
+
   async function handleReceiveStock(productId: number) {
     const quantity = 5;
 
@@ -95,8 +105,9 @@ function ProductsPage() {
 
       const updatedProducts = await getProducts();
       setProducts(updatedProducts);
-
       setEditingProductId(null);
+      resetProductForm();
+      setShowCreateModal(false);
     } catch (error) {
       console.error(error);
     }
@@ -134,9 +145,17 @@ function ProductsPage() {
   return (
     <div className="productPage">
       <h1>Products</h1>
+      <p>Manage products and inventory</p>
 
       {isAdmin && (
-        <button onClick={() => setShowCreateModal(true)}>Create Product</button>
+        <div className="create-btn-container">
+          <button
+            className="create-btn"
+            onClick={() => setShowCreateModal(true)}
+          >
+            + Create Product
+          </button>
+        </div>
       )}
       {showCreateModal && (
         <div className="modalOverlay">
@@ -217,7 +236,10 @@ function ProductsPage() {
               <button
                 className="cancel-btn"
                 type="button"
-                onClick={() => setShowCreateModal(false)}
+                onClick={() => {
+                  setShowCreateModal(false);
+                  resetProductForm();
+                }}
               >
                 Cancel
               </button>
@@ -225,47 +247,54 @@ function ProductsPage() {
           </div>
         </div>
       )}
-      <table className="productsTable">
-        <thead>
-          <tr className="productsHeader">
-            <th>Product</th>
-            <th>SKU</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td>{product.name}</td>
-              <td>SKU: {product.sku}</td>
-              <td>Price: ${product.price}</td>
-              <td>Stock: {product.quantityInStock}</td>
-
-              <td className="productActions">
-                <button onClick={() => handleReceiveStock(product.id)}>
-                  Receive 5
-                </button>
-                <button onClick={() => handleSellStock(product.id)}>
-                  Sell 5
-                </button>
-                {isAdmin && (
-                  <button onClick={() => handleEditProduct(product)}>
-                    Edit
-                  </button>
-                )}
-                {isAdmin && (
-                  <button onClick={() => handleDeleteProduct(product.id)}>
-                    Delete
-                  </button>
-                )}
-              </td>
+      <div className="tableWrapper">
+        <table className="productsTable">
+          <thead>
+            <tr className="productsHeader">
+              <th>Product</th>
+              <th>SKU</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {products.map((product) => (
+              <tr key={product.id}>
+                <td>{product.name}</td>
+                <td>SKU: {product.sku}</td>
+                <td>Price: ${product.price}</td>
+                <td>Stock: {product.quantityInStock}</td>
+
+                <td className="productActions">
+                  <button onClick={() => handleReceiveStock(product.id)}>
+                    Receive 5
+                  </button>
+                  <button onClick={() => handleSellStock(product.id)}>
+                    Sell 5
+                  </button>
+                  {isAdmin && (
+                    <button
+                      onClick={() => {
+                        setShowCreateModal(true);
+                        handleEditProduct(product);
+                      }}
+                    >
+                      Edit
+                    </button>
+                  )}
+                  {isAdmin && (
+                    <button onClick={() => handleDeleteProduct(product.id)}>
+                      Delete
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

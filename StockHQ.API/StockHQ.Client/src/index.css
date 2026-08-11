@@ -17,14 +17,24 @@ body {
   background-color: #3c4146;
 }
 
+.brand {
+  margin-left: 20px;
+}
+
+.productPage {
+  width: 70%;
+  margin: 0 auto;
+}
+
 nav {
   position: sticky;
+  top: 0;
   display: flex;
   align-items: center;
   background-color: #1c1f22;
   color: #c9a227;
   text-decoration: none;
-  padding: 0 20px;
+  width: 100%;
 }
 
 .nav-link {
@@ -152,6 +162,8 @@ nav {
 .productsTable {
   margin: 0 auto;
   border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .productsTable th {
@@ -173,7 +185,45 @@ nav {
 }
 
 .productActions button {
+  margin: 5px 0;
+}
+
+.productActions button {
   background-color: #1c1f22;
   color: #f4f1e8;
   border: none;
+}
+
+.create-btn-container {
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.create-btn {
+  margin-left: auto;
+  display: block;
+  transition: 0.3s;
+  width: 175px;
+  height: 25px;
+  cursor: pointer;
+  background-color: #c9a227;
+  color: #f4f1e8;
+  border-radius: 5px;
+  border: none;
+  font-size: 20px;
+}
+
+.tableWrapper {
+  margin: 10px;
+  width: 100%;
+  overflow-x: auto;
+}
+
+h1 {
+  color: #c9a227;
+}
+
+p {
+  color: #f4f1e8;
 }

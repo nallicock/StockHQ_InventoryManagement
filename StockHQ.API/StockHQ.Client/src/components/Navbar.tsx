@@ -10,7 +10,7 @@ function Navbar() {
 
   return (
     <nav>
-      <h2>StockHQ</h2>
+      <h2 className="brand">StockHQ</h2>
       <div className="nav-links">
         <Link className="nav-link" to="/products">
           Products
