@@ -28,9 +28,9 @@ function LoginPage() {
         <h1>Welcome to StockHQ</h1>
 
         <form onSubmit={handleSubmit}>
-          <div className="loginField">
+          <div className="formField">
             <input
-              className="loginInput"
+              className="formInput"
               type="email"
               placeholder="Email"
               value={email}
@@ -38,9 +38,9 @@ function LoginPage() {
             />
           </div>
 
-          <div className="loginField">
+          <div className="formField">
             <input
-              className="loginInput"
+              className="formInput"
               type="password"
               placeholder="Password"
               value={password}

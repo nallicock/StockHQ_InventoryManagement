@@ -36,7 +36,7 @@ body {
   text-align: center;
 }
 
-.loginInput {
+.formInput {
   width: 350px;
   height: 50px;
   margin: 20px;
@@ -44,11 +44,11 @@ body {
   border-radius: 5px;
 }
 
-.loginField label {
+.formField label {
   font-size: 25px;
 }
 
-.loginField {
+.formField {
   width: 100px;
 }
 
@@ -65,8 +65,48 @@ body {
   font-size: 20px;
 }
 
+.cancel-btn {
+  display: block;
+  transition: 0.3s;
+  width: 350px;
+  height: 50px;
+  margin: 10px auto;
+  cursor: pointer;
+  background-color: #911f1f;
+  border-radius: 5px;
+  border: none;
+  font-size: 20px;
+}
+
 .submit-btn:hover {
   transition: 0.3s;
   background-color: #a78822;
   color: #1c1f22;
+}
+
+.cancel-btn:hover {
+  transition: 0.3s;
+  background-color: #751919;
+  color: #1c1f22;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modalBlock {
+  width: 450px;
+  padding: 30px;
+  border-radius: 12px;
+  background-color: #1c1f22;
+  color: #f4f1e8;
+  border: 1px solid black;
+  max-height: 80vh;
+  overflow-y: auto;
 }

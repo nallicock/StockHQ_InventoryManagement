@@ -28,6 +28,7 @@ function ProductsPage() {
   const [quantityInStock, setQuantityInStock] = useState(0);
   const [categoryId, setCategoryId] = useState(0);
   const [editingProductId, setEditingProductId] = useState<number | null>(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
     getProducts()
@@ -132,73 +133,98 @@ function ProductsPage() {
   }
   return (
     <div>
-      <h1>Products!</h1>
+      <h1>Products</h1>
+
       {isAdmin && (
-        <form onSubmit={handleCreateProduct}>
-          <div>
-            <label>Name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-            />
-          </div>
-
-          <div>
-            <label>SKU</label>
-            <input
-              type="text"
-              value={sku}
-              onChange={(event) => setSku(event.target.value)}
-            />
-          </div>
-          <div>
-            <label>Description</label>
-            <input
-              type="text"
-              value={description}
-              onChange={(event) => setDescription(event.target.value)}
-            />
-          </div>
-          <div>
-            <label>Price</label>
-            <input
-              type="number"
-              value={price}
-              onChange={(event) => setPrice(Number(event.target.value))}
-            />
-          </div>
-          <div>
-            <label>Quantity</label>
-            <input
-              type="number"
-              value={quantityInStock}
-              onChange={(event) =>
-                setQuantityInStock(Number(event.target.value))
-              }
-            />
-          </div>
-          <div>
-            <label>Category</label>
-            <select
-              value={categoryId}
-              onChange={(event) => setCategoryId(Number(event.target.value))}
-            >
-              <option value={0}>Select a category</option>
-
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <button type="submit">
-            {editingProductId !== null ? "Update Product" : "Create Product"}
-          </button>
-        </form>
+        <button onClick={() => setShowCreateModal(true)}>Create Product</button>
       )}
-      <h2>Create Product</h2>
+      {showCreateModal && (
+        <div className="modalOverlay">
+          <div className="modalBlock">
+            <h2>Create/Update Product</h2>
+            <form onSubmit={handleCreateProduct}>
+              <div className="formField">
+                <input
+                  placeholder="Name"
+                  className="formInput"
+                  type="text"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                />
+              </div>
+
+              <div className="formField">
+                <input
+                  placeholder="SKU"
+                  className="formInput"
+                  type="text"
+                  value={sku}
+                  onChange={(event) => setSku(event.target.value)}
+                />
+              </div>
+              <div className="formField">
+                <input
+                  placeholder="Description"
+                  className="formInput"
+                  type="text"
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                />
+              </div>
+              <div className="formField">
+                <label>Price</label>
+                <input
+                  className="formInput"
+                  type="number"
+                  value={price}
+                  onChange={(event) => setPrice(Number(event.target.value))}
+                />
+              </div>
+              <div className="formField">
+                <label>Quantity</label>
+                <input
+                  className="formInput"
+                  type="number"
+                  value={quantityInStock}
+                  onChange={(event) =>
+                    setQuantityInStock(Number(event.target.value))
+                  }
+                />
+              </div>
+              <div className="formField">
+                <label>Category</label>
+                <select
+                  className="formInput"
+                  value={categoryId}
+                  onChange={(event) =>
+                    setCategoryId(Number(event.target.value))
+                  }
+                >
+                  <option value={0}>Select a category</option>
+
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <button className="submit-btn" type="submit">
+                {editingProductId !== null
+                  ? "Update Product"
+                  : "Create Product"}
+              </button>
+              <button
+                className="cancel-btn"
+                type="button"
+                onClick={() => setShowCreateModal(false)}
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
       {products.map((product) => (
         <div key={product.id}>
           <h2>{product.name}</h2>

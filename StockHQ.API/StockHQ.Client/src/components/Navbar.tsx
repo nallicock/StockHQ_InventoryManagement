@@ -10,6 +10,7 @@ function Navbar() {
 
   return (
     <nav>
+      <h2>StockHQ</h2>
       <Link to="/products">Products</Link>
       {" | "}
       <Link to="/categories">Categories</Link>
