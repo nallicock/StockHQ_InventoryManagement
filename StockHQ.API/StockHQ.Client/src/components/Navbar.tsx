@@ -11,11 +11,17 @@ function Navbar() {
   return (
     <nav>
       <h2>StockHQ</h2>
-      <Link to="/products">Products</Link>
-      {" | "}
-      <Link to="/categories">Categories</Link>
-      {" | "}
-      <button onClick={handleLogout}>Logout</button>
+      <div className="nav-links">
+        <Link className="nav-link" to="/products">
+          Products
+        </Link>
+        <Link className="nav-link" to="/categories">
+          Categories
+        </Link>
+        <button className="nav-link" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
     </nav>
   );
 }

@@ -14,6 +14,38 @@ body {
     sans-serif;
 
   margin: 0;
+  background-color: #3c4146;
+}
+
+nav {
+  position: sticky;
+  display: flex;
+  align-items: center;
+  background-color: #1c1f22;
+  color: #c9a227;
+  text-decoration: none;
+  padding: 0 20px;
+}
+
+.nav-link {
+  transition: 0.3s;
+  background-color: #1c1f22;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #c9a227;
+  text-decoration: none;
+  padding: 20px;
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  transition: 0.3s;
+  background-color: #3c4146;
+}
+
+.nav-links {
+  margin-left: auto;
 }
 
 .loginPage {

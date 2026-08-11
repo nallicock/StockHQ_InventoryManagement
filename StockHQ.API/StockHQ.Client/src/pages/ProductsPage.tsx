@@ -132,7 +132,7 @@ function ProductsPage() {
     return <p>{error}</p>;
   }
   return (
-    <div>
+    <div className="productPage">
       <h1>Products</h1>
 
       {isAdmin && (
