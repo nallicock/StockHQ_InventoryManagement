@@ -247,6 +247,13 @@ function ProductsPage() {
           </div>
         </div>
       )}
+      <div className="searchContainer">
+        <input
+          type="text"
+          className="searchInput"
+          placeholder="Search products...."
+        />
+      </div>
       <div className="tableWrapper">
         <table className="productsTable">
           <thead>
@@ -263,9 +270,9 @@ function ProductsPage() {
             {products.map((product) => (
               <tr key={product.id}>
                 <td>{product.name}</td>
-                <td>SKU: {product.sku}</td>
-                <td>Price: ${product.price}</td>
-                <td>Stock: {product.quantityInStock}</td>
+                <td>{product.sku}</td>
+                <td>${product.price}</td>
+                <td>{product.quantityInStock}</td>
 
                 <td className="productActions">
                   <button onClick={() => handleReceiveStock(product.id)}>

@@ -170,6 +170,7 @@ nav {
 }
 
 .productsTable td {
+  text-align: center;
   padding: 20px;
   border: none;
   background-color: #6e747a;
@@ -226,4 +227,12 @@ h1 {
 
 p {
   color: #f4f1e8;
+}
+
+.searchInput {
+  width: 250px;
+  height: 25px;
+  margin: 20px;
+  font-size: 20px;
+  border-radius: 5px;
 }
