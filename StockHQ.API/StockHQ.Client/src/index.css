@@ -47,6 +47,7 @@ nav {
   text-decoration: none;
   padding: 20px;
   font-weight: bold;
+  text-align: left;
 }
 
 .nav-link:hover {
@@ -235,4 +236,47 @@ p {
   margin: 20px;
   font-size: 20px;
   border-radius: 5px;
+}
+
+@media (min-width: 601px) {
+  .hamburger {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  nav {
+    position: relative;
+  }
+
+  .hamburger {
+    visibility: visible;
+    display: block;
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #c9a227;
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+  .nav-links {
+    display: none;
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+
+    flex-direction: column;
+    align-items: stretch;
+
+    background-color: #1c1f22;
+    padding: 15px;
+    z-index: 1000;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
 }
